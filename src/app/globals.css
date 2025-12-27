@@ -82,27 +82,27 @@ body {
 }
 
 @keyframes flicker {
-  0% { opacity: 0.27861; }
-  5% { opacity: 0.34769; }
-  10% { opacity: 0.23604; }
-  15% { opacity: 0.90626; }
-  20% { opacity: 0.18128; }
-  25% { opacity: 0.83891; }
-  30% { opacity: 0.65583; }
-  35% { opacity: 0.67807; }
-  40% { opacity: 0.26559; }
-  45% { opacity: 0.84693; }
-  50% { opacity: 0.96019; }
-  55% { opacity: 0.08523; }
-  60% { opacity: 0.71313; }
-  65% { opacity: 0.09044; }
-  70% { opacity: 0.1512; }
-  75% { opacity: 0.50657; }
-  80% { opacity: 0.19414; }
-  85% { opacity: 0.60323; }
-  90% { opacity: 0.88425; }
-  95% { opacity: 0.56071; }
-  100% { opacity: 0.15243; }
+  0% { opacity: 0.02786; }
+  5% { opacity: 0.03476; }
+  10% { opacity: 0.02360; }
+  15% { opacity: 0.04062; }
+  20% { opacity: 0.01812; }
+  25% { opacity: 0.03389; }
+  30% { opacity: 0.02558; }
+  35% { opacity: 0.02780; }
+  40% { opacity: 0.02655; }
+  45% { opacity: 0.03469; }
+  50% { opacity: 0.04601; }
+  55% { opacity: 0.01852; }
+  60% { opacity: 0.03131; }
+  65% { opacity: 0.01904; }
+  70% { opacity: 0.01512; }
+  75% { opacity: 0.03065; }
+  80% { opacity: 0.01941; }
+  85% { opacity: 0.03032; }
+  90% { opacity: 0.03842; }
+  95% { opacity: 0.02607; }
+  100% { opacity: 0.01524; }
 }
 
 .scanline {

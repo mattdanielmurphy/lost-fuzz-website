@@ -5,9 +5,9 @@ export default function Home() {
     <main className="flex min-h-screen items-center justify-center bg-[#7c70da] p-4 sm:p-8 font-[family-name:var(--font-press-start-2p)]">
       <div className="w-full max-w-4xl aspect-[4/3] bg-[#3528be] border-[32px] sm:border-[64px] border-[#7c70da] flex flex-col p-4 sm:p-8 text-[#7c70da] text-xs sm:text-lg uppercase leading-loose shadow-2xl">
         <div className="text-center mb-8">
-          **** COMMODORE 64 BASIC V2 ****
+          **** IAN DAOUST ****
           <br />
-          64K RAM SYSTEM  38911 BASIC BYTES FREE
+          MUSICIAN LIVING IN BEAUMONT, ALBERTA
         </div>
 
         <div className="mb-4">READY.</div>
