@@ -114,6 +114,7 @@ body {
   position: fixed;
   bottom: 100%;
   animation: scanline 10s linear infinite;
+  pointer-events: none;
 }
 
 @keyframes scanline {
