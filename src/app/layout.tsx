@@ -1,39 +1,39 @@
-import type { Metadata } from "next";
-import { VT323, Press_Start_2P } from "next/font/google";
-import "./globals.css";
+import "./globals.css"
+
+import { Press_Start_2P, VT323 } from "next/font/google"
+
+import type { Metadata } from "next"
 
 const vt323 = VT323({
-  weight: "400",
-  variable: "--font-vt323",
-  subsets: ["latin"],
-});
+	weight: "400",
+	variable: "--font-vt323",
+	subsets: ["latin"],
+})
 
 const pressStart2P = Press_Start_2P({
-  weight: "400",
-  variable: "--font-press-start-2p",
-  subsets: ["latin"],
-});
+	weight: "400",
+	variable: "--font-press-start-2p",
+	subsets: ["latin"],
+})
 
 export const metadata: Metadata = {
-  title: "Ian Daoust - Retro Portfolio",
-  description: "A retro-themed portfolio website",
-};
+	title: "Ian Daoust / Lost Fuzz - Musician",
+	description: "Personal website of Ian Daoust / Lost Fuzz",
+}
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${vt323.variable} ${pressStart2P.variable} antialiased min-h-screen bg-black`}
-      >
-        <div className="crt relative min-h-screen w-full">
-          <div className="scanline"></div>
-          {children}
-        </div>
-      </body>
-    </html>
-  );
+	return (
+		<html lang='en'>
+			<body className={`${vt323.variable} ${pressStart2P.variable} antialiased min-h-screen bg-black`}>
+				<div className='crt relative min-h-screen w-full'>
+					<div className='scanline'></div>
+					{children}
+				</div>
+			</body>
+		</html>
+	)
 }
