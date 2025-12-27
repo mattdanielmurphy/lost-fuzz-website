@@ -19,5 +19,11 @@ A Next.js website with a retro terminal theme.
 - `npm run start`: Start production server.
 - `npm run lint`: Run ESLint.
 
+## Features
+- **Contact Form:** Integrated with Resend SDK.
+  - API Route: `/api/send`
+  - Environment Variables: `RESEND_API_KEY`, `CONTACT_FORM_SENDER_EMAIL`, `CONTACT_FORM_RECIPIENT_EMAIL`.
+  - Spam Protection: Honeypot field `website_url`.
+
 ## Design Inspiration
 - `ian-daoust-site.png`: Screenshot of the desired C64 homepage.
