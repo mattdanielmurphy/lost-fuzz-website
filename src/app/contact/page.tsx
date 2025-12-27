@@ -161,17 +161,6 @@ export default function Contact() {
               </div>
             </form>
           )}
-
-          <div className="pt-8 border-t border-white/20 space-y-4">
-            <div className="flex gap-4 items-center">
-              <span className="text-[#ff8800]">DIRECT EMAIL:</span>
-              <span className="bg-white text-black px-2 py-1">HELLO@IANDAOUST.COM</span>
-            </div>
-            <div className="flex gap-4 items-center">
-              <span className="text-[#ff8800]">GITHUB:</span>
-              <span className="bg-white text-black px-2 py-1">/IANDAOUST</span>
-            </div>
-          </div>
         </div>
       </div>
       
