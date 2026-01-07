@@ -1,9 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Terminal from "@/components/Terminal"
 
 export default function Contact() {
+	const router = useRouter()
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
@@ -12,6 +15,11 @@ export default function Contact() {
 	})
 	const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 	const [errorMessage, setErrorMessage] = useState("")
+	const [shellOpen, setShellOpen] = useState(false)
+	const [shellPos, setShellPos] = useState({ x: 0, y: 0 })
+	const [isDragging, setIsDragging] = useState(false)
+	const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+	const shellRef = useRef<HTMLDivElement>(null)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const { name, value } = e.target
@@ -45,19 +53,68 @@ export default function Contact() {
 		}
 	}
 
+	const shellCommands = {
+		help: () => "COMMANDS: AVAIL, LIST, INFO, SAY, PORTFOLIO, STUDIOS, HELP, CLEAR, CLOSE",
+		avail: () => "CHIP: 2048KB, FAST: 8192KB, TOTAL: 10240KB",
+		list: () => "DF0: DISK, DH0: SYSTEM, DH1: WORK, RAM: RAMDISK",
+		info: () => "AMIGA 1200 - MOTOROLA 68030 50MHZ - KICKSTART 3.1",
+		say: (args: string[]) => args.join(" ").toUpperCase() || "HELLO FROM THE AMIGA",
+		portfolio: () => { router.push("/portfolio") },
+		studios: () => { router.push("/studios") },
+		close: () => { setShellOpen(false) },
+		guru: () => "SOFTWARE FAILURE. PRESS LEFT MOUSE BUTTON TO CONTINUE.\nERROR 80000004 TASK 00045670",
+	}
+
+	useEffect(() => {
+		if (shellOpen && shellPos.x === 0 && shellPos.y === 0) {
+			setShellPos({ x: window.innerWidth / 2 - 150, y: 150 })
+		}
+	}, [shellOpen, shellPos.x, shellPos.y])
+
+	const onMouseDown = (e: React.MouseEvent) => {
+		if (shellRef.current && e.target instanceof Node && shellRef.current.contains(e.target)) {
+			setIsDragging(true)
+			setDragOffset({
+				x: e.clientX - shellPos.x,
+				y: e.clientY - shellPos.y
+			})
+		}
+	}
+
+	useEffect(() => {
+		const onMouseMove = (e: MouseEvent) => {
+			if (isDragging) {
+				setShellPos({
+					x: e.clientX - dragOffset.x,
+					y: e.clientY - dragOffset.y
+				})
+			}
+		}
+		const onMouseUp = () => setIsDragging(false)
+
+		if (isDragging) {
+			window.addEventListener("mousemove", onMouseMove)
+			window.addEventListener("mouseup", onMouseUp)
+		}
+		return () => {
+			window.removeEventListener("mousemove", onMouseMove)
+			window.removeEventListener("mouseup", onMouseUp)
+		}
+	}, [isDragging, dragOffset])
+
 	return (
-		<main className='min-h-screen bg-[#0055aa] p-4 sm:p-12 font-[family-name:var(--font-press-start-2p)] text-white text-[10px] sm:text-xs'>
+		<main className='min-h-screen bg-[#0055aa] p-4 sm:p-12 font-[family-name:var(--font-press-start-2p)] text-white text-[10px] sm:text-xs relative'>
 			<div className='max-w-3xl mx-auto bg-[#ffffff] border-2 border-black p-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'>
 				{/* Amiga Window Frame */}
 				<div className='bg-[#aaaaaa] border-b-2 border-black p-2 flex items-center justify-between text-black mb-1'>
 					<div className='flex gap-2 flex-shrink-0'>
-						<div className='w-6 h-4 bg-white border border-black flex items-center justify-center'>
-							<div className='w-4 h-0.5 bg-black'></div>
-						</div>
+						<button onClick={() => setShellOpen(!shellOpen)} className='w-6 h-4 bg-white border border-black flex items-center justify-center hover:bg-black transition-colors'>
+							<div className='w-4 h-0.5 bg-black hover:bg-white'></div>
+						</button>
 					</div>
 					<div className='uppercase font-bold tracking-widest text-[8px] sm:text-[10px] px-2 truncate'>Lost Fuzz: Contact Me</div>
 					<div className='flex gap-2 flex-shrink-0'>
-						<div className='w-6 h-4 bg-white border border-black'></div>
+						<Link href="/" className='w-6 h-4 bg-white border border-black hover:bg-black'></Link>
 					</div>
 				</div>
 
@@ -155,9 +212,37 @@ export default function Contact() {
 				</div>
 			</div>
 
+			{/* Amiga Shell Window Overlay */}
+			{shellOpen && (
+				<div 
+					ref={shellRef}
+					onMouseDown={onMouseDown}
+					style={{ 
+						left: `${shellPos.x}px`, 
+						top: `${shellPos.y}px`,
+						position: 'fixed'
+					}}
+					className="w-[90%] max-w-2xl bg-[#aaaaaa] border-2 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,0.5)] z-[100] cursor-default"
+				>
+					<div className="bg-white border-b-2 border-black p-1 flex items-center justify-between text-black cursor-move">
+						<div className="text-[8px] font-bold uppercase px-2 pointer-events-none">AmigaShell</div>
+						<button onClick={() => setShellOpen(false)} className="px-2 text-xs hover:bg-black hover:text-white transition-colors">X</button>
+					</div>
+					<div className="p-2 h-48 overflow-y-auto bg-black text-white font-mono text-[10px] leading-tight cursor-text" onClick={(e) => e.stopPropagation()}>
+						<Terminal 
+							commands={shellCommands}
+							inputPrefix="1.SYS:>"
+							className="min-h-full"
+							onClear={() => {}}
+							forceUppercase={true}
+						/>
+					</div>
+				</div>
+			)}
+
 			{/* Amiga Checkmark icons at bottom */}
 			<div className='mt-8 flex gap-4 opacity-50 justify-center'>
-				<div className='w-8 h-8 border-2 border-white flex items-center justify-center italic font-bold'>A</div>
+				<button onClick={() => setShellOpen(true)} className='w-8 h-8 border-2 border-white flex items-center justify-center italic font-bold hover:bg-white hover:text-[#0055aa] transition-colors'>A</button>
 				<div className='w-8 h-8 border-2 border-white flex items-center justify-center italic font-bold'>V</div>
 			</div>
 		</main>
