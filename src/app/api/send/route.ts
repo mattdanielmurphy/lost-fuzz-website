@@ -25,11 +25,11 @@ export async function POST(request: Request) {
 
 		// 1. Send email to admin
 		const adminEmail = await resend.emails.send({
-			from: `Lost Fuzz <${senderEmail}>`,
+			from: `Lost Fuzz Website <${senderEmail}>`,
 			to: recipientEmail,
 			replyTo: email,
-			subject: `New Contact Form Submission from ${name}`,
-			text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+			subject: `New Message from ${name}`,
+			text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\n To reply to them, just reply to this email.`,
 		})
 
 		if (adminEmail.error) {
@@ -41,8 +41,8 @@ export async function POST(request: Request) {
 		const userEmail = await resend.emails.send({
 			from: `Lost Fuzz <${senderEmail}>`,
 			to: email,
-			subject: "Thank you for your message",
-			text: `Hi ${name},\n\nThank you for reaching out. I have received your message and will get back to you as soon as possible.\n\nBest regards,\nLost Fuzz`,
+			subject: "Message received--Thanks",
+			text: `Hi ${name},\n\nThanks for reaching out. Just letting you know, our system got your message and I will get back to you as soon as possible.\n\nTake care,\nLost Fuzz`,
 		})
 
 		if (userEmail.error) {
