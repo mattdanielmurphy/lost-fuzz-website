@@ -26,6 +26,7 @@ export default function Portfolio() {
         <span>COMMANDS:</span>
         <button onClick={() => execute?.("CATALOG")} className="terminal-link">CATALOG</button>
         <button onClick={() => execute?.("RUN 1")} className="terminal-link">RUN [N]</button>
+        <button onClick={() => execute?.("ABOUT")} className="terminal-link">ABOUT</button>
         <button onClick={() => execute?.("HOME")} className="terminal-link">HOME</button>
         <button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
         <button onClick={() => execute?.("EXIT")} className="terminal-link">EXIT</button>
@@ -50,6 +51,9 @@ export default function Portfolio() {
     },
     home: () => {
       router.push("/");
+    },
+    about: () => {
+      router.push("/about");
     },
     exit: () => { router.push("/") },
     contact: () => { router.push("/contact") },

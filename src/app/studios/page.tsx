@@ -23,6 +23,8 @@ export default function Studios() {
 				<span>COMMANDS:</span>
 				<button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
 				<button onClick={() => execute?.("CLEAR")} className="terminal-link">CLEAR</button>
+				<button onClick={() => execute?.("HOME")} className="terminal-link">HOME</button>
+				<button onClick={() => execute?.("ABOUT")} className="terminal-link">ABOUT</button>
 				<button onClick={() => execute?.("PORTFOLIO")} className="terminal-link">PORTFOLIO</button>
 				<button onClick={() => execute?.("CONTACT")} className="terminal-link">CONTACT</button>
 				<button onClick={() => execute?.("HELLO")} className="terminal-link">HELLO</button>
@@ -30,6 +32,12 @@ export default function Studios() {
 				<button onClick={() => execute?.("BOOK")} className="terminal-link">BOOK</button>
 			</div>
 		),
+		home: () => {
+			router.push("/")
+		},
+		about: () => {
+			router.push("/about")
+		},
 		portfolio: () => {
 			router.push("/portfolio")
 		},

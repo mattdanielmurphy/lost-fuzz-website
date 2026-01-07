@@ -31,6 +31,10 @@
     "allowedBuildScripts": [
       "sharp",
       "unrs-resolver"
+    ],
+    "onlyBuiltDependencies": [
+      "sharp",
+      "unrs-resolver"
     ]
   }
 }

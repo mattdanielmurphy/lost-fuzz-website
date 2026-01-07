@@ -101,43 +101,24 @@ export default function Terminal({
 			inputRef.current?.focus()
 		}
 		window.addEventListener("click", handleGlobalClick)
-		
+
 		if (autoFocus) {
 			const timeout = setTimeout(() => {
 				inputRef.current?.focus()
 			}, 100)
-			
-			if (autoTypeCommand && !initialCommandExecuted.current) {
-				initialCommandExecuted.current = true
-				setIsTyping(true)
-				let currentText = ""
-				const typeChar = (index: number) => {
-					if (index < autoTypeCommand.length) {
-						currentText += autoTypeCommand[index]
-						setInput(currentText)
-						setCursorPos(currentText.length)
-						setTimeout(() => typeChar(index + 1), typingSpeed + Math.random() * typingSpeed)
-					} else {
-									setTimeout(() => {
-										executeCommand(autoTypeCommand)
-										setInput("")
-										setCursorPos(0)
-										setIsTyping(false)
-									}, typingSpeed * 2)					}
-				}
-				setTimeout(() => typeChar(0), autoTypeDelay)
-			} else if (initialCommand && !initialCommandExecuted.current) {
-				initialCommandExecuted.current = true
-				Promise.resolve().then(() => executeCommand(initialCommand))
-			}
-
 			return () => {
 				window.removeEventListener("click", handleGlobalClick)
 				clearTimeout(timeout)
 			}
 		}
 
-		if (autoTypeCommand && !initialCommandExecuted.current) {
+		return () => window.removeEventListener("click", handleGlobalClick)
+	}, [autoFocus])
+
+	useEffect(() => {
+		if (initialCommandExecuted.current) return
+
+		if (autoTypeCommand) {
 			initialCommandExecuted.current = true
 			setIsTyping(true)
 			let currentText = ""
@@ -148,21 +129,20 @@ export default function Terminal({
 					setCursorPos(currentText.length)
 					setTimeout(() => typeChar(index + 1), typingSpeed + Math.random() * typingSpeed)
 				} else {
-								setTimeout(() => {
-									executeCommand(autoTypeCommand)
-									setInput("")
-									setCursorPos(0)
-									setIsTyping(false)
-								}, typingSpeed * 2)				}
+					setTimeout(() => {
+						executeCommand(autoTypeCommand)
+						setInput("")
+						setCursorPos(0)
+						setIsTyping(false)
+					}, typingSpeed * 2)
+				}
 			}
 			setTimeout(() => typeChar(0), autoTypeDelay)
-		} else if (initialCommand && !initialCommandExecuted.current) {
+		} else if (initialCommand) {
 			initialCommandExecuted.current = true
 			Promise.resolve().then(() => executeCommand(initialCommand))
 		}
-
-		return () => window.removeEventListener("click", handleGlobalClick)
-	}, [initialCommand, autoTypeCommand, autoFocus, executeCommand, typingSpeed])
+	}, [autoTypeCommand, initialCommand, autoTypeDelay, typingSpeed, executeCommand])
 
 	useEffect(() => {
 		if (isFirstRender.current) {

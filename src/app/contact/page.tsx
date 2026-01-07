@@ -59,6 +59,8 @@ export default function Contact() {
 				<span>COMMANDS:</span>
 				<button onClick={() => execute?.("AVAIL")} className="terminal-link">AVAIL</button>
 				<button onClick={() => execute?.("LIST")} className="terminal-link">LIST</button>
+				<button onClick={() => execute?.("HOME")} className="terminal-link">HOME</button>
+				<button onClick={() => execute?.("ABOUT")} className="terminal-link">ABOUT</button>
 				<button onClick={() => execute?.("INFO")} className="terminal-link">INFO</button>
 				<button onClick={() => execute?.("SAY HELLO")} className="terminal-link">SAY</button>
 				<button onClick={() => execute?.("PORTFOLIO")} className="terminal-link">PORTFOLIO</button>
@@ -70,6 +72,8 @@ export default function Contact() {
 		),
 		avail: () => "CHIP: 2048KB, FAST: 8192KB, TOTAL: 10240KB",
 		list: () => "DF0: DISK, DH0: SYSTEM, DH1: WORK, RAM: RAMDISK",
+		home: () => { router.push("/") },
+		about: () => { router.push("/about") },
 		info: () => "AMIGA 1200 - MOTOROLA 68030 50MHZ - KICKSTART 3.1",
 		say: (args: string[]) => args.join(" ").toUpperCase() || "HELLO FROM THE AMIGA",
 		portfolio: () => { router.push("/portfolio") },
