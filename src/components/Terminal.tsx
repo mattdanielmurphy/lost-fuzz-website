@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 
 interface TerminalProps {
 	welcomeMessage?: React.ReactNode
@@ -58,61 +58,54 @@ export default function Terminal({
 		}
 	}
 
-	const executeCommand = useCallback(async (fullCommand: string) => {
-		const displayCommand = forceUppercase ? fullCommand.toUpperCase() : fullCommand
-		
-		setHistory((prev) => {
-			const updated = [...prev, `${inputPrefix}${displayCommand}`]
-			onHistoryChange?.(updated)
-			return updated
-		})
+	const executeCommand = useCallback(
+		async (fullCommand: string) => {
+			const displayCommand = forceUppercase ? fullCommand.toUpperCase() : fullCommand
 
-		setCommandHistory((prev) => [fullCommand, ...prev])
-		setHistoryIndex(-1)
+			setHistory((prev) => {
+				const updated = [...prev, `${inputPrefix}${displayCommand}`]
+				onHistoryChange?.(updated)
+				return updated
+			})
 
-		const [cmd, ...args] = fullCommand.toLowerCase().split(/\s+/)
+			setCommandHistory((prev) => [fullCommand, ...prev])
+			setHistoryIndex(-1)
 
-		if (cmd === "clear" || cmd === "cls") {
-			setHistory([])
-			onHistoryChange?.([])
-			onClear?.()
-		} else if (commands[cmd]) {
-			const result = await commands[cmd](args, executeCommand)
-			if (result) {
+			const [cmd, ...args] = fullCommand.toLowerCase().split(/\s+/)
+
+			if (cmd === "clear" || cmd === "cls") {
+				setHistory([])
+				onHistoryChange?.([])
+				onClear?.()
+			} else if (commands[cmd]) {
+				const result = await commands[cmd](args, executeCommand)
+				if (result) {
+					setHistory((prev) => {
+						const updated = [...prev, result]
+						onHistoryChange?.(updated)
+						return updated
+					})
+				}
+			} else {
 				setHistory((prev) => {
-					const updated = [...prev, result]
+					const updated = [...prev, `?SYNTAX ERROR IN ${fullCommand.toUpperCase()}`]
 					onHistoryChange?.(updated)
 					return updated
 				})
 			}
-		} else {
-			setHistory((prev) => {
-				const updated = [...prev, `?SYNTAX ERROR IN ${fullCommand.toUpperCase()}`]
-				onHistoryChange?.(updated)
-				return updated
-			})
-		}
-		
-		onCommandExecuted?.(fullCommand)
-	}, [forceUppercase, inputPrefix, commands, onClear, onCommandExecuted, onHistoryChange])
+
+			onCommandExecuted?.(fullCommand)
+		},
+		[forceUppercase, inputPrefix, commands, onClear, onCommandExecuted, onHistoryChange]
+	)
 
 	useEffect(() => {
-		const handleGlobalClick = () => {
-			inputRef.current?.focus()
-		}
-		window.addEventListener("click", handleGlobalClick)
-
 		if (autoFocus) {
 			const timeout = setTimeout(() => {
 				inputRef.current?.focus()
-			}, 100)
-			return () => {
-				window.removeEventListener("click", handleGlobalClick)
-				clearTimeout(timeout)
-			}
+			}, 300)
+			return () => clearTimeout(timeout)
 		}
-
-		return () => window.removeEventListener("click", handleGlobalClick)
 	}, [autoFocus])
 
 	useEffect(() => {
@@ -144,13 +137,30 @@ export default function Terminal({
 		}
 	}, [autoTypeCommand, initialCommand, autoTypeDelay, typingSpeed, executeCommand])
 
+	// Scroll to bottom when keyboard appears (input focus)
+	useEffect(() => {
+		const input = inputRef.current
+		if (!input) return
+
+		const handleFocus = () => {
+			// Use a slightly longer delay and scrollIntoView with 'end'
+			setTimeout(() => {
+				endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+			}, 500)
+		}
+
+		input.addEventListener("focus", handleFocus)
+		return () => input.removeEventListener("focus", handleFocus)
+	}, [])
+
 	useEffect(() => {
 		if (isFirstRender.current) {
 			isFirstRender.current = false
 			return
 		}
 		if (history.length > 0 && !disableAutoScroll) {
-			endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" })
+			// Use 'end' block to ensure it stays at the bottom
+			endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
 		}
 	}, [history, disableAutoScroll])
 
@@ -210,51 +220,61 @@ export default function Terminal({
 		}
 	}
 
-	    return (
-	        <div className={`flex flex-col font-inherit ${className}`} style={{ color: textColor }} onClick={() => inputRef.current?.focus()}>
-	            {welcomeMessage && <div className='mb-4'>{welcomeMessage}</div>}
-	            <div className='flex flex-col gap-1'>
-	                {history.map((line, i) => (
-	                    <div key={i} className='break-words' style={{ color: textColor }}>
-	                        {line}
-	                    </div>
-	                ))}
-	            </div>
-	            <div className='flex items-center gap-2 mt-1 relative'>
-	                <span style={{ color: textColor }}>{inputPrefix}</span>
-	                <div className="relative flex-1 flex items-center min-h-[1.2em]">
-	                    <input
-	                        ref={inputRef}
-	                        type='text'
-	                        value={input}
-							readOnly={isTyping}
-	                        onChange={(e) => {
-								if (isTyping) return
-	                            setInput(e.target.value)
-	                            updateCursorPos()
-	                        }}
-	                        onKeyDown={handleKeyDown}
-	                        onSelect={updateCursorPos}
-	                        onMouseDown={() => setTimeout(updateCursorPos, 0)}
-	                        className='absolute inset-0 bg-transparent border-none outline-none p-0 m-0 uppercase font-inherit text-inherit caret-transparent z-10 w-full'
-	                        autoComplete='off'
-	                        autoCorrect='off'
-	                        spellCheck='false'
-	                        style={{ color: textColor }}
-	                    />
-	                    <div className="uppercase font-inherit text-inherit pointer-events-none flex items-center whitespace-pre wrap break-all" style={{ color: textColor }}>
-	                        <span>{input.slice(0, cursorPos)}</span>
-	                        <span className="relative inline-flex items-center justify-center w-[1ch] h-[1.2em]">
-	                            <span className="absolute inset-0 bg-current animate-cursor" style={{ backgroundColor: textColor }}></span>
-	                            <span className="relative z-10" style={{ color: cursorHighlightColor }}>
-	                                {input[cursorPos] || ""}
-	                            </span>
-	                        </span>
-	                        <span>{input.slice(cursorPos + 1)}</span>
-	                    </div>
-	                </div>
-	            </div>
-	            <div ref={endOfMessagesRef} />
-	        </div>
-	    )
-	}
+	return (
+		<div
+			className={`flex flex-col font-inherit ${className} overflow-y-auto`}
+			style={{ color: textColor }}
+			onClick={(e) => {
+				// Don't focus if we clicked a link or button
+				const target = e.target as HTMLElement
+				if (target.closest("button") || target.closest("a")) {
+					return
+				}
+				inputRef.current?.focus()
+			}}
+		>
+			{welcomeMessage && <div className='mb-4'>{welcomeMessage}</div>}
+			<div className='flex flex-col gap-1'>
+				{history.map((line, i) => (
+					<div key={i} className='break-words' style={{ color: textColor }}>
+						{line}
+					</div>
+				))}
+			</div>
+			<div className='flex items-center gap-2 mt-1 relative'>
+				<span style={{ color: textColor }}>{inputPrefix}</span>
+				<div className='relative flex-1 flex items-center min-h-[1.2em]'>
+					<input
+						ref={inputRef}
+						type='text'
+						value={input}
+						readOnly={isTyping}
+						onChange={(e) => {
+							if (isTyping) return
+							setInput(e.target.value)
+							updateCursorPos()
+						}}
+						onKeyDown={handleKeyDown}
+						onSelect={updateCursorPos}
+						onMouseDown={() => setTimeout(updateCursorPos, 0)}
+						className='absolute inset-0 bg-transparent border-none outline-none p-0 m-0 uppercase font-inherit caret-transparent z-10 w-full opacity-0 text-[16px]'
+						autoComplete='off'
+						autoCorrect='off'
+						spellCheck='false'
+					/>
+					<div className='uppercase font-inherit text-inherit pointer-events-none flex items-center whitespace-pre wrap break-all' style={{ color: textColor }}>
+						<span>{input.slice(0, cursorPos)}</span>
+						<span className='relative inline-flex items-center justify-center w-[1ch] h-[1.2em]'>
+							<span className='absolute inset-0 bg-current animate-cursor' style={{ backgroundColor: textColor }}></span>
+							<span className='relative z-10' style={{ color: cursorHighlightColor }}>
+								{input[cursorPos] || ""}
+							</span>
+						</span>
+						<span>{input.slice(cursorPos + 1)}</span>
+					</div>
+				</div>
+			</div>
+			<div ref={endOfMessagesRef} />
+		</div>
+	)
+}

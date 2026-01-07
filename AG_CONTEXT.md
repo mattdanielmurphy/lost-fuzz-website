@@ -32,6 +32,8 @@ A Next.js website with a retro terminal theme.
   - API Route: `/api/send`
   - Environment Variables: `RESEND_API_KEY`, `CONTACT_FORM_SENDER_EMAIL`, `CONTACT_FORM_RECIPIENT_EMAIL`.
   - Spam Protection: Honeypot field `website_url`.
+- **UI/UX Tweaks:**
+  - Homepage: Hidden "64K RAM" line on mobile to streamline the terminal view.
 
 ## Conventions & Config
 - **Package Manager:** pnpm.

@@ -120,7 +120,7 @@ export default function Contact() {
 	}, [isDragging, dragOffset])
 
 	return (
-		<main className='min-h-screen bg-[#0055aa] p-4 sm:p-12 font-[family-name:var(--font-press-start-2p)] text-white text-[10px] sm:text-xs relative'>
+		<main className='min-h-screen bg-[#0055aa] p-4 sm:p-12 font-[family-name:var(--font-press-start-2p)] text-white text-[12px] sm:text-xs relative'>
 			<div className='max-w-3xl mx-auto bg-[#ffffff] border-2 border-black p-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'>
 				{/* Amiga Window Frame */}
 				<div className='bg-[#aaaaaa] border-b-2 border-black p-2 flex items-center justify-between text-black mb-1'>

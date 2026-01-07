@@ -18,17 +18,16 @@ export default function Home() {
 	const [isReturning, setIsReturning] = useState(false)
 	const [isLoaded, setIsLoaded] = useState(false)
 
-	useEffect(() => {
-		if (hasVisitedThisSession) {
-			setIsReturning(true)
-		} else {
-			hasVisitedThisSession = true
-			setIsReturning(false)
-		}
-		setIsLoaded(true)
-	}, [])
-
-	const lightColors = ["#FFFFFF", "#AAFFEE", "#EEEE77", "#AAFF66", "#BBBBBB", "#777777"]
+		useEffect(() => {
+			if (hasVisitedThisSession) {
+				setIsReturning(true)
+			} else {
+				hasVisitedThisSession = true
+				setIsReturning(false)
+			}
+			setIsLoaded(true)
+		}, [])
+		const lightColors = ["#FFFFFF", "#AAFFEE", "#EEEE77", "#AAFF66", "#BBBBBB", "#777777"]
 	const isLightBg = lightColors.includes(bgColor.toUpperCase())
 	const textColor = isLightBg ? "#000000" : borderColor === "#7c70da" ? "#7c70da" : "#ffffff"
 
@@ -228,7 +227,7 @@ export default function Home() {
 					</button>
 
 					<button onClick={() => execute?.("COLOR BORDER RED")} className='terminal-link text-left w-fit'>
-						COLOR - CHANGE SYSTEM COLORS (E.G. COLOR BORDER RED)
+						COLOR - CHANGE SYSTEM COLORS
 					</button>
 
 					<button onClick={() => execute?.("MUSIC")} className='terminal-link text-left w-fit'>
@@ -266,7 +265,7 @@ export default function Home() {
 				return (
 					<div className='flex flex-col gap-2 my-2'>
 						<div className='flex gap-2 sm:gap-4'>
-							<span className='w-6 sm:w-12 flex-shrink-0 text-right'>10</span>
+							<span className='w-10 sm:w-12 flex-shrink-0 text-right'>10</span>
 
 							<Link href='/portfolio' className='terminal-link inline-block'>
 								PRINT &quot;PORTFOLIO&quot;
@@ -274,7 +273,7 @@ export default function Home() {
 						</div>
 
 						<div className='flex gap-2 sm:gap-4'>
-							<span className='w-6 sm:w-12 flex-shrink-0 text-right'>20</span>
+							<span className='w-10 sm:w-12 flex-shrink-0 text-right'>20</span>
 
 							<Link href='/studios' className='terminal-link inline-block'>
 								PRINT &quot;LOST FUZZ STUDIOS&quot;
@@ -282,7 +281,7 @@ export default function Home() {
 						</div>
 
 						<div className='flex gap-2 sm:gap-4'>
-							<span className='w-6 sm:w-12 flex-shrink-0 text-right'>30</span>
+							<span className='w-10 sm:w-12 flex-shrink-0 text-right'>30</span>
 
 							<Link href='/contact' className='terminal-link inline-block'>
 								PRINT &quot;CONTACT ME&quot;
@@ -290,7 +289,7 @@ export default function Home() {
 						</div>
 
 						<div className='flex gap-2 sm:gap-4'>
-							<span className='w-6 sm:w-12 flex-shrink-0 text-right'>40</span>
+							<span className='w-10 sm:w-12 flex-shrink-0 text-right'>40</span>
 
 							<Link href='/about' className='terminal-link inline-block'>
 								PRINT &quot;ABOUT ME&quot;
@@ -452,16 +451,17 @@ export default function Home() {
 		<div className='text-center mb-6 sm:mb-8 break-words'>
 			**** LOST FUZZ BASIC V2 ****
 			<br />
-			64K RAM SYSTEM 38911 BASIC BYTES FREE
+			64K RAM SYSTEM
+			<span className='hidden sm:inline'> 38911 BASIC BYTES FREE</span>
 			<br />
-			MUSICIAN LIVING IN ALBERTA CANADA
+			MUSICIAN IN AB, CANADA
 		</div>
 	)
 
 	return (
-		<main className='flex min-h-screen items-center justify-center p-2 sm:p-4 font-[family-name:var(--font-press-start-2p)] overflow-y-auto' style={{ backgroundColor: borderColor }}>
+		<main className='flex h-dvh flex-col items-center justify-center p-2 sm:p-4 font-[family-name:var(--font-press-start-2p)] overflow-hidden' style={{ backgroundColor: borderColor }}>
 			<div
-				className='w-full max-w-4xl min-h-[70vh] border-8 sm:border-[32px] md:border-[64px] flex flex-col p-4 sm:p-8 text-[9px] sm:text-base md:text-lg uppercase leading-loose shadow-2xl transition-colors duration-500'
+				className='w-full max-w-4xl h-full sm:h-[85%] border-8 sm:border-[32px] md:border-[64px] flex flex-col p-4 sm:p-8 text-[12px] sm:text-base md:text-lg uppercase leading-loose shadow-2xl transition-colors duration-500 overflow-hidden'
 				style={
 					{
 						backgroundColor: bgColor,
