@@ -17,8 +17,8 @@ const pressStart2P = Press_Start_2P({
 })
 
 export const metadata: Metadata = {
-	title: "Ian Daoust / Lost Fuzz - Musician",
-	description: "Personal website of Ian Daoust / Lost Fuzz",
+	title: "Lost Fuzz - Musician",
+	description: "Personal website of Lost Fuzz",
 }
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-# Ian Daoust Website Context
+# Lost Fuzz Website Context
 
 ## Project Overview
 A Next.js website with a retro terminal theme.
@@ -32,4 +32,4 @@ A Next.js website with a retro terminal theme.
   - Spam Protection: Honeypot field `website_url`.
 
 ## Design Inspiration
-- `ian-daoust-site.png`: Screenshot of the desired C64 homepage.
+- `lost-fuzz-site.png`: Screenshot of the desired C64 homepage.

@@ -16,13 +16,21 @@ export default function Portfolio() {
     <main className="min-h-screen bg-black p-4 sm:p-8 font-[family-name:var(--font-vt323)] text-[#33ff33] text-xl uppercase overflow-y-auto">
       <div className="max-w-6xl mx-auto">
         <header className="mb-8 sm:mb-12 border-b-2 border-[#33ff33] pb-4">
-          <h1 className="text-xl sm:text-3xl md:text-5xl mb-2">IAN DAOUST: PORTFOLIO</h1>
-          <p className="text-xs sm:text-sm md:text-base">MUSIC RELEASES - (C) 1982-2025 IAN DAOUST</p>
+          <h1 className="text-xl sm:text-3xl md:text-5xl mb-2">LOST FUZZ: PORTFOLIO</h1>
+          <p className="text-xs sm:text-sm md:text-base">MUSIC RELEASES - (C) 1982-2025 LOST FUZZ</p>
         </header>
 
         <section className="space-y-12">
           <div>
-            <h2 className="text-3xl underline mb-8">CATALOG_RELEASES</h2>
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-8 gap-4">
+              <h2 className="text-3xl underline">BANDCAMP RELEASES</h2>
+              <a 
+                href="#after-bandcamp" 
+                className="text-sm border border-[#33ff33] px-2 py-1 hover:bg-[#33ff33] hover:text-black transition-colors inline-block w-fit cursor-pointer"
+              >
+                [ SKIP_TO_BOTTOM ]
+              </a>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {releases.map((release, index) => (
                 <Link 
@@ -53,6 +61,7 @@ export default function Portfolio() {
                 </Link>
               ))}
             </div>
+            <div id="after-bandcamp" className="scroll-mt-24"></div>
           </div>
 
           <div className="mt-12">
