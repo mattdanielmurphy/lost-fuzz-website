@@ -4,12 +4,17 @@ import React, { useState, useEffect, useRef, useCallback } from "react"
 
 interface TerminalProps {
 	welcomeMessage?: React.ReactNode
-	commands: Record<string, (args: string[]) => string | React.ReactNode | void | Promise<string | React.ReactNode | void>>
+	commands: Record<string, (args: string[], execute?: (cmd: string) => void) => string | React.ReactNode | void | Promise<string | React.ReactNode | void>>
 	className?: string
 	inputPrefix?: string
 	autoFocus?: boolean
 	onClear?: () => void
 	initialCommand?: string
+	autoTypeCommand?: string
+	autoTypeDelay?: number
+	typingSpeed?: number
+	initialHistory?: (string | React.ReactNode)[]
+	onHistoryChange?: (history: (string | React.ReactNode)[]) => void
 	onCommandExecuted?: (command: string) => void
 	forceUppercase?: boolean
 	disableAutoScroll?: boolean
@@ -25,21 +30,27 @@ export default function Terminal({
 	autoFocus = true,
 	onClear,
 	initialCommand,
+	autoTypeCommand,
+	autoTypeDelay = 1000,
+	typingSpeed = 150,
 	onCommandExecuted,
 	forceUppercase = false,
 	disableAutoScroll = false,
 	cursorHighlightColor = "#3528be",
 	textColor,
+	initialHistory,
+	onHistoryChange,
 }: TerminalProps) {
-	const [history, setHistory] = useState<(string | React.ReactNode)[]>([])
+	const [history, setHistory] = useState<(string | React.ReactNode)[]>(initialHistory || [])
 	const [input, setInput] = useState("")
 	const [historyIndex, setHistoryIndex] = useState(-1)
 	const [commandHistory, setCommandHistory] = useState<string[]>([])
 	const [cursorPos, setCursorPos] = useState(0)
+	const [isTyping, setIsTyping] = useState(false)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const endOfMessagesRef = useRef<HTMLDivElement>(null)
 	const isFirstRender = useRef(true)
-	const initialCommandExecuted = useRef(false)
+	const initialCommandExecuted = useRef(history.length > 0)
 
 	const updateCursorPos = () => {
 		if (inputRef.current) {
@@ -49,7 +60,13 @@ export default function Terminal({
 
 	const executeCommand = useCallback(async (fullCommand: string) => {
 		const displayCommand = forceUppercase ? fullCommand.toUpperCase() : fullCommand
-		setHistory((prev) => [...prev, `${inputPrefix}${displayCommand}`])
+		
+		setHistory((prev) => {
+			const updated = [...prev, `${inputPrefix}${displayCommand}`]
+			onHistoryChange?.(updated)
+			return updated
+		})
+
 		setCommandHistory((prev) => [fullCommand, ...prev])
 		setHistoryIndex(-1)
 
@@ -57,18 +74,27 @@ export default function Terminal({
 
 		if (cmd === "clear" || cmd === "cls") {
 			setHistory([])
+			onHistoryChange?.([])
 			onClear?.()
 		} else if (commands[cmd]) {
-			const result = await commands[cmd](args)
+			const result = await commands[cmd](args, executeCommand)
 			if (result) {
-				setHistory((prev) => [...prev, result])
+				setHistory((prev) => {
+					const updated = [...prev, result]
+					onHistoryChange?.(updated)
+					return updated
+				})
 			}
 		} else {
-			setHistory((prev) => [...prev, `?SYNTAX ERROR IN ${fullCommand.toUpperCase()}`])
+			setHistory((prev) => {
+				const updated = [...prev, `?SYNTAX ERROR IN ${fullCommand.toUpperCase()}`]
+				onHistoryChange?.(updated)
+				return updated
+			})
 		}
 		
 		onCommandExecuted?.(fullCommand)
-	}, [forceUppercase, inputPrefix, commands, onClear, onCommandExecuted])
+	}, [forceUppercase, inputPrefix, commands, onClear, onCommandExecuted, onHistoryChange])
 
 	useEffect(() => {
 		const handleGlobalClick = () => {
@@ -81,7 +107,26 @@ export default function Terminal({
 				inputRef.current?.focus()
 			}, 100)
 			
-			if (initialCommand && !initialCommandExecuted.current) {
+			if (autoTypeCommand && !initialCommandExecuted.current) {
+				initialCommandExecuted.current = true
+				setIsTyping(true)
+				let currentText = ""
+				const typeChar = (index: number) => {
+					if (index < autoTypeCommand.length) {
+						currentText += autoTypeCommand[index]
+						setInput(currentText)
+						setCursorPos(currentText.length)
+						setTimeout(() => typeChar(index + 1), typingSpeed + Math.random() * typingSpeed)
+					} else {
+									setTimeout(() => {
+										executeCommand(autoTypeCommand)
+										setInput("")
+										setCursorPos(0)
+										setIsTyping(false)
+									}, typingSpeed * 2)					}
+				}
+				setTimeout(() => typeChar(0), autoTypeDelay)
+			} else if (initialCommand && !initialCommandExecuted.current) {
 				initialCommandExecuted.current = true
 				Promise.resolve().then(() => executeCommand(initialCommand))
 			}
@@ -92,13 +137,32 @@ export default function Terminal({
 			}
 		}
 
-		if (initialCommand && !initialCommandExecuted.current) {
+		if (autoTypeCommand && !initialCommandExecuted.current) {
+			initialCommandExecuted.current = true
+			setIsTyping(true)
+			let currentText = ""
+			const typeChar = (index: number) => {
+				if (index < autoTypeCommand.length) {
+					currentText += autoTypeCommand[index]
+					setInput(currentText)
+					setCursorPos(currentText.length)
+					setTimeout(() => typeChar(index + 1), typingSpeed + Math.random() * typingSpeed)
+				} else {
+								setTimeout(() => {
+									executeCommand(autoTypeCommand)
+									setInput("")
+									setCursorPos(0)
+									setIsTyping(false)
+								}, typingSpeed * 2)				}
+			}
+			setTimeout(() => typeChar(0), autoTypeDelay)
+		} else if (initialCommand && !initialCommandExecuted.current) {
 			initialCommandExecuted.current = true
 			Promise.resolve().then(() => executeCommand(initialCommand))
 		}
 
 		return () => window.removeEventListener("click", handleGlobalClick)
-	}, [initialCommand, autoFocus, executeCommand])
+	}, [initialCommand, autoTypeCommand, autoFocus, executeCommand, typingSpeed])
 
 	useEffect(() => {
 		if (isFirstRender.current) {
@@ -111,6 +175,10 @@ export default function Terminal({
 	}, [history, disableAutoScroll])
 
 	const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (isTyping) {
+			e.preventDefault()
+			return
+		}
 		// Update cursor pos on next tick to catch arrow key movements
 		setTimeout(updateCursorPos, 0)
 
@@ -179,7 +247,9 @@ export default function Terminal({
 	                        ref={inputRef}
 	                        type='text'
 	                        value={input}
+							readOnly={isTyping}
 	                        onChange={(e) => {
+								if (isTyping) return
 	                            setInput(e.target.value)
 	                            updateCursorPos()
 	                        }}

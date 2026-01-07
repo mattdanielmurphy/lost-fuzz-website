@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import Image from "next/image";
+import DialUpImage from "@/components/DialUpImage";
 import releasesData from "@/data/releases.json";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -21,7 +21,18 @@ export default function Portfolio() {
   const bandcampRef = useRef<HTMLDivElement>(null);
 
   const commands = {
-    help: () => "COMMANDS: CATALOG, RUN [N], HOME, HELP, EXIT, CONTACT, STUDIOS",
+    help: (args: string[], execute?: (cmd: string) => void) => (
+      <div className="flex flex-wrap gap-x-4 gap-y-1 my-1">
+        <span>COMMANDS:</span>
+        <button onClick={() => execute?.("CATALOG")} className="terminal-link">CATALOG</button>
+        <button onClick={() => execute?.("RUN 1")} className="terminal-link">RUN [N]</button>
+        <button onClick={() => execute?.("HOME")} className="terminal-link">HOME</button>
+        <button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
+        <button onClick={() => execute?.("EXIT")} className="terminal-link">EXIT</button>
+        <button onClick={() => execute?.("CONTACT")} className="terminal-link">CONTACT</button>
+        <button onClick={() => execute?.("STUDIOS")} className="terminal-link">STUDIOS</button>
+      </div>
+    ),
     catalog: () => (
       <div className="grid grid-cols-1 gap-1 my-2">
         {releases.map((r, i) => (
@@ -63,7 +74,9 @@ export default function Portfolio() {
 
   const welcomeMessage = (
     <header className="mb-8 border-b-2 border-[#33ff33] pb-4">
-      <h1 className="text-xl sm:text-3xl md:text-5xl mb-2">LOST FUZZ: PORTFOLIO</h1>
+      <h1 className="text-xl sm:text-3xl md:text-5xl mb-2">
+        <Link href="/" className="hover:bg-[#33ff33] hover:text-black px-1 -ml-1">LOST FUZZ</Link>: PORTFOLIO
+      </h1>
       <p className="text-xs sm:text-sm md:text-base">MUSIC RELEASES - (C) 1982-2025 LOST FUZZ</p>
       <p className="text-xs mt-4">TYPE &apos;HELP&apos; FOR SYSTEM COMMANDS</p>
     </header>
@@ -101,11 +114,12 @@ export default function Portfolio() {
                   className="group block border border-[#33ff33] p-4 hover:bg-[#33ff33] hover:text-black transition-all"
                 >
                   <div className="aspect-square relative mb-4 border border-[#33ff33] overflow-hidden">
-                    <Image
+                    <DialUpImage
                       src={release.image}
                       alt={release.name}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100"
+                      loadingSpeed={1.5 + Math.random() * 2}
                     />
                     <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%]"></div>
                   </div>

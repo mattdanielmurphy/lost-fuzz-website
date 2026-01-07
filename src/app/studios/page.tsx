@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import Image from "next/image"
+import DialUpImage from "@/components/DialUpImage"
 import Link from "next/link"
 import Terminal from "@/components/Terminal"
 import { useRouter } from "next/navigation"
@@ -18,7 +18,18 @@ export default function Studios() {
 	const terminalRef = useRef<HTMLDivElement>(null)
 
 	const terminalCommands = {
-		help: () => "COMMANDS: HELP, CLEAR, PORTFOLIO, CONTACT, HELLO, DATE, BOOK",
+		help: (args: string[], execute?: (cmd: string) => void) => (
+			<div className="flex flex-wrap gap-x-2 gap-y-1">
+				<span>COMMANDS:</span>
+				<button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
+				<button onClick={() => execute?.("CLEAR")} className="terminal-link">CLEAR</button>
+				<button onClick={() => execute?.("PORTFOLIO")} className="terminal-link">PORTFOLIO</button>
+				<button onClick={() => execute?.("CONTACT")} className="terminal-link">CONTACT</button>
+				<button onClick={() => execute?.("HELLO")} className="terminal-link">HELLO</button>
+				<button onClick={() => execute?.("DATE")} className="terminal-link">DATE</button>
+				<button onClick={() => execute?.("BOOK")} className="terminal-link">BOOK</button>
+			</div>
+		),
 		portfolio: () => {
 			router.push("/portfolio")
 		},
@@ -125,7 +136,9 @@ export default function Studios() {
 					<div className='flex gap-1'>
 						<button onClick={() => router.push("/")} className='w-4 h-4 border border-black hover:bg-black transition-colors'></button>
 					</div>
-					<div className='font-bold uppercase tracking-widest text-sm'>Lost Fuzz Studios</div>
+					<div className="font-bold uppercase tracking-widest text-sm">
+						<Link href="/" className="hover:underline">Lost Fuzz</Link> Studios
+					</div>
 					<div className='w-4 h-4'></div>
 				</div>
 
@@ -163,7 +176,7 @@ export default function Studios() {
 				<div className='p-4 sm:p-8 space-y-8 print:p-0'>
 					<div className='flex flex-col items-center'>
 						<div className='w-32 h-32 sm:w-48 sm:h-48 mb-4 relative'>
-							<Image src='/images/lost-fuzz-icon-500px.png' alt='Lost Fuzz Icon' fill className='object-contain' />
+							<DialUpImage src='/images/lost-fuzz-icon-500px.png' alt='Lost Fuzz Icon' fill className='object-contain' loadingSpeed={2} style={{ background: 'none' }} />
 						</div>
 						<h1 className='text-xl sm:text-3xl font-bold uppercase tracking-tighter italic text-center'>Lost Fuzz Studios</h1>
 					</div>

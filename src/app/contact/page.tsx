@@ -54,7 +54,20 @@ export default function Contact() {
 	}
 
 	const shellCommands = {
-		help: () => "COMMANDS: AVAIL, LIST, INFO, SAY, PORTFOLIO, STUDIOS, HELP, CLEAR, CLOSE",
+		help: (args: string[], execute?: (cmd: string) => void) => (
+			<div className="flex flex-wrap gap-x-2 gap-y-1">
+				<span>COMMANDS:</span>
+				<button onClick={() => execute?.("AVAIL")} className="terminal-link">AVAIL</button>
+				<button onClick={() => execute?.("LIST")} className="terminal-link">LIST</button>
+				<button onClick={() => execute?.("INFO")} className="terminal-link">INFO</button>
+				<button onClick={() => execute?.("SAY HELLO")} className="terminal-link">SAY</button>
+				<button onClick={() => execute?.("PORTFOLIO")} className="terminal-link">PORTFOLIO</button>
+				<button onClick={() => execute?.("STUDIOS")} className="terminal-link">STUDIOS</button>
+				<button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
+				<button onClick={() => execute?.("CLEAR")} className="terminal-link">CLEAR</button>
+				<button onClick={() => execute?.("CLOSE")} className="terminal-link">CLOSE</button>
+			</div>
+		),
 		avail: () => "CHIP: 2048KB, FAST: 8192KB, TOTAL: 10240KB",
 		list: () => "DF0: DISK, DH0: SYSTEM, DH1: WORK, RAM: RAMDISK",
 		info: () => "AMIGA 1200 - MOTOROLA 68030 50MHZ - KICKSTART 3.1",
@@ -112,7 +125,9 @@ export default function Contact() {
 							<div className='w-4 h-0.5 bg-black hover:bg-white'></div>
 						</button>
 					</div>
-					<div className='uppercase font-bold tracking-widest text-[8px] sm:text-[10px] px-2 truncate'>Lost Fuzz: Contact Me</div>
+					<div className='uppercase font-bold tracking-widest text-[8px] sm:text-[10px] px-2 truncate'>
+						<Link href="/" className="hover:underline">Lost Fuzz</Link>: Contact Me
+					</div>
 					<div className='flex gap-2 flex-shrink-0'>
 						<Link href="/" className='w-6 h-4 bg-white border border-black hover:bg-black'></Link>
 					</div>
