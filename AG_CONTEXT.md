@@ -31,5 +31,9 @@ A Next.js website with a retro terminal theme.
   - Environment Variables: `RESEND_API_KEY`, `CONTACT_FORM_SENDER_EMAIL`, `CONTACT_FORM_RECIPIENT_EMAIL`.
   - Spam Protection: Honeypot field `website_url`.
 
+## Conventions & Config
+- **Package Manager:** pnpm.
+  - Config: `pnpm.allowedBuildScripts` includes `sharp` and `unrs-resolver` for Vercel builds.
+
 ## Design Inspiration
 - `lost-fuzz-site.png`: Screenshot of the desired C64 homepage.
