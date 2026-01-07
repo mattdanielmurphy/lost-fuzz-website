@@ -19,17 +19,35 @@ export default function Studios() {
 
 	const terminalCommands = {
 		help: (args: string[], execute?: (cmd: string) => void) => (
-			<div className="flex flex-wrap gap-x-2 gap-y-1">
+			<div className='flex flex-wrap gap-x-2 gap-y-1'>
 				<span>COMMANDS:</span>
-				<button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
-				<button onClick={() => execute?.("CLEAR")} className="terminal-link">CLEAR</button>
-				<button onClick={() => execute?.("HOME")} className="terminal-link">HOME</button>
-				<button onClick={() => execute?.("ABOUT")} className="terminal-link">ABOUT</button>
-				<button onClick={() => execute?.("PORTFOLIO")} className="terminal-link">PORTFOLIO</button>
-				<button onClick={() => execute?.("CONTACT")} className="terminal-link">CONTACT</button>
-				<button onClick={() => execute?.("HELLO")} className="terminal-link">HELLO</button>
-				<button onClick={() => execute?.("DATE")} className="terminal-link">DATE</button>
-				<button onClick={() => execute?.("BOOK")} className="terminal-link">BOOK</button>
+				<button onClick={() => execute?.("HELP")} className='terminal-link'>
+					HELP
+				</button>
+				<button onClick={() => execute?.("CLEAR")} className='terminal-link'>
+					CLEAR
+				</button>
+				<button onClick={() => execute?.("HOME")} className='terminal-link'>
+					HOME
+				</button>
+				<button onClick={() => execute?.("ABOUT")} className='terminal-link'>
+					ABOUT
+				</button>
+				<button onClick={() => execute?.("PORTFOLIO")} className='terminal-link'>
+					PORTFOLIO
+				</button>
+				<button onClick={() => execute?.("CONTACT")} className='terminal-link'>
+					CONTACT
+				</button>
+				<button onClick={() => execute?.("HELLO")} className='terminal-link'>
+					HELLO
+				</button>
+				<button onClick={() => execute?.("DATE")} className='terminal-link'>
+					DATE
+				</button>
+				<button onClick={() => execute?.("BOOK")} className='terminal-link'>
+					BOOK
+				</button>
 			</div>
 		),
 		home: () => {
@@ -144,8 +162,11 @@ export default function Studios() {
 					<div className='flex gap-1'>
 						<button onClick={() => router.push("/")} className='w-4 h-4 border border-black hover:bg-black transition-colors'></button>
 					</div>
-					<div className="font-bold uppercase tracking-widest text-sm">
-						<Link href="/" className="hover:underline">Lost Fuzz</Link> Studios
+					<div className='font-bold uppercase tracking-widest text-sm'>
+						<Link href='/' className='hover:underline'>
+							Lost Fuzz
+						</Link>{" "}
+						Studios
 					</div>
 					<div className='w-4 h-4'></div>
 				</div>
@@ -183,13 +204,13 @@ export default function Studios() {
 				{/* Content */}
 				<div className='p-4 sm:p-8 space-y-8 print:p-0'>
 					<div className='flex flex-col items-center'>
-						<div className='w-32 h-32 sm:w-48 sm:h-48 mb-4 relative'>
-							<DialUpImage src='/images/lost-fuzz-icon-500px.png' alt='Lost Fuzz Icon' fill className='object-contain' loadingSpeed={2} style={{ background: 'none' }} />
+						<div className='w-32 h-32 sm:w-48 sm:h-48 sm:mb-2 relative'>
+							<DialUpImage src='/images/lost-fuzz-icon-500px.png' alt='Lost Fuzz Icon' fill className='object-contain' loadingSpeed={2} style={{ background: "none" }} />
 						</div>
 						<h1 className='text-xl sm:text-3xl font-bold uppercase tracking-tighter italic text-center'>Lost Fuzz Studios</h1>
 					</div>
 
-					<div className='space-y-6 text-xs sm:text-sm leading-relaxed'>
+					<div className='space-y-6 text-md sm:text-sm leading-relaxed'>
 						<p className='border-t border-b border-black py-4 text-center font-bold'>
 							A few other artists and I are starting LOST FUZZ Studios. We&apos;re an amateur home recording studio open to musicians, songwriters, and artists who want help recording and producing
 							music, beats, mixing, lyric writing, and instrumentation. We also offer rehearsal space with recording support.
