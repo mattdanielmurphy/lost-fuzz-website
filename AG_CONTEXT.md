@@ -26,6 +26,8 @@ A Next.js website with a retro terminal theme.
   - Data: `src/data/releases.json`
   - Images: `public/images/`
   - Automation: GitHub Action (`.github/workflows/sync-bandcamp.yml`) runs hourly.
+    - **Fix:** Added `rm -rf ~/.npm` purge step to resolve ENOENT errors on LMDB index files after repo rename.
+    - **Note:** Workflow updated to use `pnpm` to match project conventions.
 - **Contact Form:** Integrated with Resend SDK.
   - API Route: `/api/send`
   - Environment Variables: `RESEND_API_KEY`, `CONTACT_FORM_SENDER_EMAIL`, `CONTACT_FORM_RECIPIENT_EMAIL`.
