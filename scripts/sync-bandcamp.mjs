@@ -31,9 +31,9 @@ async function syncReleases() {
   }
 
   const existingReleases = JSON.parse(fs.readFileSync(RELEASES_JSON_PATH, 'utf8'));
-  const existingLinks = new Set(existingReleases.map(r => r.link));
-
-  const newReleases = [];
+  const updatedReleases = [];
+  const processedNames = new Set();
+  const processedLinks = new Set();
 
   // Bandcamp music grid items
   const items = $('ol#music-grid > li').get();
@@ -42,10 +42,8 @@ async function syncReleases() {
     const $li = $(li);
     const $a = $li.find('a').first();
     
-    // Bandcamp titles are often inside a <p class="title"> or just the text of the link
     let name = $li.find('.title').text().trim();
     if (!name) {
-        // Fallback to searching all text nodes in the link but excluding hidden ones
         name = $a.text().trim().split('\n')[0].trim();
     }
 
@@ -56,15 +54,25 @@ async function syncReleases() {
       ? href
       : BANDCAMP_URL.replace(/\/$/, '') + '/' + href.replace(/^\//, '');
 
-    if (existingLinks.has(releaseUrl)) {
+    // Check if we already have this release in existing data
+    const existing = existingReleases.find(r => r.link === releaseUrl || r.name === name);
+
+    if (existing) {
+      console.log(`Updating existing release: ${name}`);
+      updatedReleases.push({
+        ...existing,
+        name,
+        link: releaseUrl
+      });
+      processedNames.add(name);
+      processedLinks.add(releaseUrl);
       continue;
     }
 
-    console.log(`Found potential new release: ${name}`);
+    console.log(`Found new release: ${name}`);
 
     const $img = $li.find('img');
-    // Bandcamp uses lazy loading often, check src and data-original
-    const imgUrl = $img.attr('src') || $img.attr('data-original');
+    const imgUrl = $img.attr('data-original') || $img.attr('src');
     
     if (!imgUrl) {
       console.warn(`No image found for ${name}, skipping.`);
@@ -81,26 +89,33 @@ async function syncReleases() {
         const buffer = Buffer.from(await imgRes.arrayBuffer());
         fs.writeFileSync(localImagePath, buffer);
 
-        newReleases.push({
+        updatedReleases.push({
           name,
           link: releaseUrl,
           image: `/images/${fileName}`
         });
+        processedNames.add(name);
+        processedLinks.add(releaseUrl);
     } catch (err) {
         console.error(`Error downloading image for ${name}:`, err.message);
     }
   }
 
-  if (newReleases.length > 0) {
-    // We want newest first, and usually music-grid is already newest first.
-    // existingReleases are already in some order. 
-    // If we prepended them, we'd have the new ones at the top.
-    const updatedReleases = [...newReleases, ...existingReleases];
-    fs.writeFileSync(RELEASES_JSON_PATH, JSON.stringify(updatedReleases, null, 2));
-    console.log(`Added ${newReleases.length} new releases.`);
-  } else {
-    console.log('No new releases found.');
+  // Keep manual entries (those with an artist field that isn't the default, or just any not on the grid)
+  // For now, let's keep everything that was NOT processed and has a custom artist.
+  const manualEntries = existingReleases.filter(r => 
+    !processedNames.has(r.name) && 
+    !processedLinks.has(r.link) && 
+    r.artist && r.artist !== 'LOST FUZZ'
+  );
+
+  if (manualEntries.length > 0) {
+    console.log(`Keeping ${manualEntries.length} manual entries.`);
+    updatedReleases.push(...manualEntries);
   }
+
+  fs.writeFileSync(RELEASES_JSON_PATH, JSON.stringify(updatedReleases, null, 2));
+  console.log(`Sync complete. Total releases: ${updatedReleases.length}`);
 }
 
 syncReleases().catch(console.error);

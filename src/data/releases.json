@@ -10,30 +10,9 @@
     "image": "/images/Beyond_the_Signal_-_(LP).jpg"
   },
   {
-    "name": "Beyond the Signal",
-    "link": "https://lostfuzz.bandcamp.com/album/beyond-the-signal",
-    "image": "/images/Beyond_the_Signal.jpg"
-  },
-  {
     "name": "Lunar - (LP)",
     "link": "https://lostfuzz.bandcamp.com/album/lunar-lp",
     "image": "/images/Lunar_-_(LP).jpg"
-  },
-  {
-    "name": "Whispers in the Shadows - (Single)",
-    "link": "https://lostfuzz.bandcamp.com/track/whispers-in-the-shadows-single",
-    "image": "/images/Whispers_in_the_Shadows_-_(Single).jpg"
-  },
-  {
-    "name": "Nine - (Single)",
-    "link": "https://lostfuzz.bandcamp.com/track/nine-single",
-    "image": "/images/Nine_-_(Single).jpg"
-  },
-  {
-    "name": "28 Ghosts IV - (Remix)",
-    "artist": "Nine Inch Nails",
-    "link": "https://lostfuzz.bandcamp.com/track/28-ghosts-iv-remix",
-    "image": "/images/28_Ghosts_IV_-_(Remix)_Nine_Inch_Nails.jpg"
   },
   {
     "name": "Silhouette - (LP)",
@@ -44,11 +23,6 @@
     "name": "Far Away - (Single)",
     "link": "https://lostfuzz.bandcamp.com/track/far-away-single",
     "image": "/images/Far_Away_-_(Single).jpg"
-  },
-  {
-    "name": "Moonlight - (Single)",
-    "link": "https://lostfuzz.bandcamp.com/track/moonlight-single",
-    "image": "/images/Moonlight_-_(Single).jpg"
   },
   {
     "name": "Dark - (Single)",
@@ -71,18 +45,14 @@
     "image": "/images/Someday_(Versions).jpg"
   },
   {
-    "name": "Breathless - (Single)",
-    "link": "https://lostfuzz.bandcamp.com/track/breathless-single",
-    "image": "/images/Breathless_-_(Single).jpg"
-  },
-  {
     "name": "Midnight - (LP)",
     "link": "https://lostfuzz.bandcamp.com/album/midnight-lp",
     "image": "/images/Midnight_-_(LP).jpg"
   },
   {
-    "name": "Lily - (Single)",
-    "link": "https://lostfuzz.bandcamp.com/track/lily-single",
-    "image": "/images/Lily_-_(Single).jpg"
+    "name": "28 Ghosts IV - (Remix)",
+    "artist": "Nine Inch Nails",
+    "link": "https://lostfuzz.bandcamp.com/track/28-ghosts-iv-remix",
+    "image": "/images/28_Ghosts_IV_-_(Remix)_Nine_Inch_Nails.jpg"
   }
 ]
