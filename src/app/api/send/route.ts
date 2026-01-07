@@ -41,7 +41,7 @@ export async function POST(request: Request) {
 		const userEmail = await resend.emails.send({
 			from: `Lost Fuzz <${senderEmail}>`,
 			to: email,
-			subject: "Message received--Thanks",
+			subject: "Message received—Thanks",
 			text: `Hi ${name},\n\nThanks for reaching out. Just letting you know, our system got your message and I will get back to you as soon as possible.\n\nTake care,\nLost Fuzz`,
 		})
 
