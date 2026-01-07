@@ -1,8 +1,7 @@
 import "./globals.css"
 
-import { Press_Start_2P, VT323 } from "next/font/google"
-
 import type { Metadata, Viewport } from "next"
+import { Press_Start_2P, VT323 } from "next/font/google"
 
 const vt323 = VT323({
 	weight: "400",
@@ -17,7 +16,7 @@ const pressStart2P = Press_Start_2P({
 })
 
 export const metadata: Metadata = {
-	title: "Lost Fuzz - Musician",
+	title: "Lost Fuzz - Musician and Studio in AB, Canada",
 	description: "Personal website of Lost Fuzz",
 }
 
