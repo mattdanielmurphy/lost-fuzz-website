@@ -64,7 +64,8 @@ export default function Contact() {
 				<button onClick={() => execute?.("INFO")} className="terminal-link">INFO</button>
 				<button onClick={() => execute?.("SAY HELLO")} className="terminal-link">SAY</button>
 				<button onClick={() => execute?.("PORTFOLIO")} className="terminal-link">PORTFOLIO</button>
-				<button onClick={() => execute?.("STUDIOS")} className="terminal-link">STUDIOS</button>
+				<button onClick={() => execute?.("SPOTIFY")} className="terminal-link">SPOTIFY</button>
+				<button onClick={() => execute?.("AMUSIC")} className="terminal-link">APPLE MUSIC</button>
 				<button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
 				<button onClick={() => execute?.("CLEAR")} className="terminal-link">CLEAR</button>
 				<button onClick={() => execute?.("CLOSE")} className="terminal-link">CLOSE</button>
@@ -77,7 +78,8 @@ export default function Contact() {
 		info: () => "AMIGA 1200 - MOTOROLA 68030 50MHZ - KICKSTART 3.1",
 		say: (args: string[]) => args.join(" ").toUpperCase() || "HELLO FROM THE AMIGA",
 		portfolio: () => { router.push("/portfolio") },
-		studios: () => { router.push("/studios") },
+		spotify: () => { window.open("https://open.spotify.com/artist/3Re7kFD4ofekyvC7fxG4A1", "_blank") },
+		amusic: () => { window.open("https://geo.music.apple.com/artist/lost-fuzz/1636398740", "_blank") },
 		close: () => { setShellOpen(false) },
 		guru: () => "SOFTWARE FAILURE. PRESS LEFT MOUSE BUTTON TO CONTINUE.\nERROR 80000004 TASK 00045670",
 	}

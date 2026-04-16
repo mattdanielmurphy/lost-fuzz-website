@@ -14,14 +14,13 @@ export default function About() {
 	}, [])
 
 	const commands = useMemo(() => ({
-		help: () => "AVAILABLE COMMANDS: DIR, TYPE, CD, CLS, VER, HELP, ECHO, HOME, ABOUT, PORTFOLIO, STUDIOS, CONTACT",
+		help: () => "AVAILABLE COMMANDS: DIR, TYPE, CD, CLS, VER, HELP, ECHO, HOME, ABOUT, PORTFOLIO, CONTACT",
 		dir: () => (
 			<div className='grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 my-2 text-base sm:text-2xl'>
 				<span>[.]</span>
 				<span>[..]</span>
 				<span>README.TXT</span>
 				<span>PORTFOLIO.EXE</span>
-				<span>STUDIOS.EXE</span>
 				<span>CONTACT.EXE</span>
 				<span>AUTOEXEC.BAT</span>
 				<span>CONFIG.SYS</span>
@@ -34,6 +33,14 @@ export default function About() {
 				return (
 					<div className='bg-[#cccccc] text-black p-4 sm:p-8 space-y-6 my-2 normal-case font-sans'>
 						<h1 className='text-2xl sm:text-4xl font-bold underline uppercase font-[family-name:var(--font-vt323)]'>LOST FUZZ: ABOUT ME</h1>
+
+						<div className='py-8 sm:py-12'>
+							<p className='text-3xl sm:text-6xl font-bold leading-tight italic text-center'>
+								&quot;People only remember the feeling you leave them with.&quot;
+							</p>
+						</div>
+
+						{/* 
 						<p className='text-lg sm:text-2xl leading-relaxed'>
 							HELLO. I AM LOST FUZZ. I create dark, synth-driven alternative rock that blends electric guitar, electronic textures, and emotionally powered vocals. I draw heavily from industrial and
 							post-alternative influences; my long-term project focuses on melody, atmosphere, and tension-driven songwriting. Soundtrack-esque, really—I feel a lot of my material would be right at
@@ -47,6 +54,7 @@ export default function About() {
 						<p className='text-lg sm:text-2xl leading-relaxed'>
 							I am currently developing a full-length album and am seeking label or distribution partners aligned with alternative, electronic, and forward-thinking rock music.
 						</p>
+						*/}
 					</div>
 				)
 			}
@@ -70,17 +78,11 @@ export default function About() {
 		portfolio: () => {
 			router.push("/portfolio")
 		},
-		studios: () => {
-			router.push("/studios")
-		},
 		contact: () => {
 			router.push("/contact")
 		},
 		"portfolio.exe": () => {
 			router.push("/portfolio")
-		},
-		"studios.exe": () => {
-			router.push("/studios")
 		},
 		"contact.exe": () => {
 			router.push("/contact")

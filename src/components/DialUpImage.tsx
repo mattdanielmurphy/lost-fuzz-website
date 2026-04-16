@@ -24,11 +24,8 @@ export default function DialUpImage({ loadingSpeed = 3, ...props }: DialUpImageP
 		<div className='relative w-full h-full overflow-hidden' style={props.style}>
 			<Image
 				{...props}
+				unoptimized={true}
 				onLoad={() => {
-					setIsLoaded(true)
-				}}
-				// Using onLoadingComplete for extra safety in some Next.js versions
-				onLoadingComplete={() => {
 					setIsLoaded(true)
 				}}
 				className={`${props.className || ""} ${!isLoaded ? "opacity-0" : "opacity-100"}`}

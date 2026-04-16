@@ -4,9 +4,9 @@
 A Next.js website with a retro terminal theme.
 - **Homepage:** Commodore 64 (C64) style.
 - **Portfolio:** Apple II style.
-- **Lost Fuzz Studios:** System 1.0 (Classic Mac) style.
 - **About Me:** MS-DOS style.
 - **Contact Me:** Amiga Workbench style.
+- **Lost Fuzz Studios:** System 1.0 (Classic Mac) style (Currently unlinked from main navigation).
 
 ## Tech Stack
 - Next.js (App Router)
@@ -25,6 +25,7 @@ A Next.js website with a retro terminal theme.
   - Script: `scripts/sync-bandcamp.mjs`
   - Data: `src/data/releases.json`
   - Images: `public/images/`
+  - Note: Sync now strictly matches the Bandcamp page grid (removes stale or manual entries) and always refreshes artwork.
   - Automation: GitHub Action (`.github/workflows/sync-bandcamp.yml`) runs hourly.
     - **Fix:** Added `rm -rf ~/.npm` purge step to resolve ENOENT errors on LMDB index files after repo rename.
     - **Note:** Workflow updated to use `pnpm` to match project conventions.

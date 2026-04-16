@@ -205,7 +205,7 @@ export default function Studios() {
 				<div className='p-4 sm:p-8 space-y-8 print:p-0'>
 					<div className='flex flex-col items-center'>
 						<div className='w-32 h-32 sm:w-48 sm:h-48 sm:mb-2 relative'>
-							<DialUpImage src='/images/lost-fuzz-icon-500px.png' alt='Lost Fuzz Icon' fill className='object-contain' loadingSpeed={2} style={{ background: "none" }} />
+							<DialUpImage src='/images/lost-fuzz-icon-500px.png' alt='Lost Fuzz Icon' fill priority className='object-contain' loadingSpeed={2} style={{ background: "none" }} />
 						</div>
 						<h1 className='text-xl sm:text-3xl font-bold uppercase tracking-tighter italic text-center'>Lost Fuzz Studios</h1>
 					</div>

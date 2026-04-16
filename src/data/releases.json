@@ -2,37 +2,31 @@
   {
     "name": "Eclipse",
     "link": "https://lostfuzz.bandcamp.com/album/eclipse-2",
-    "image": "/images/Eclipse.jpg"
+    "image": "/images/Eclipse.jpg?v=1776365326131"
   },
   {
     "name": "Beyond the Signal",
     "link": "https://lostfuzz.bandcamp.com/album/beyond-the-signal",
-    "image": "/images/Beyond_the_Signal.jpg"
+    "image": "/images/Beyond_the_Signal.jpg?v=1776365326465"
   },
   {
     "name": "Lunar",
     "link": "https://lostfuzz.bandcamp.com/album/lunar",
-    "image": "/images/Lunar.jpg"
+    "image": "/images/Lunar.jpg?v=1776365326495"
   },
   {
     "name": "Silhouette",
     "link": "https://lostfuzz.bandcamp.com/album/silhouette",
-    "image": "/images/Silhouette.jpg"
+    "image": "/images/Silhouette.jpg?v=1776365326548"
   },
   {
     "name": "Maxnive",
     "link": "https://lostfuzz.bandcamp.com/album/maxnive",
-    "image": "/images/Maxnive.jpg"
+    "image": "/images/Maxnive.jpg?v=1776365326579"
   },
   {
     "name": "Midnight",
     "link": "https://lostfuzz.bandcamp.com/album/midnight",
-    "image": "/images/Midnight.jpg"
-  },
-  {
-    "name": "28 Ghosts IV - (Remix)",
-    "artist": "Nine Inch Nails",
-    "link": "https://lostfuzz.bandcamp.com/track/28-ghosts-iv-remix",
-    "image": "/images/28_Ghosts_IV_-_(Remix)_Nine_Inch_Nails.jpg"
+    "image": "/images/Midnight.jpg?v=1776365326608"
   }
 ]

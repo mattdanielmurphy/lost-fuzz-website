@@ -45,8 +45,11 @@ export default function Portfolio() {
 				<button onClick={() => execute?.("CONTACT")} className='terminal-link'>
 					CONTACT
 				</button>
-				<button onClick={() => execute?.("STUDIOS")} className='terminal-link'>
-					STUDIOS
+				<button onClick={() => execute?.("SPOTIFY")} className='terminal-link'>
+					SPOTIFY
+				</button>
+				<button onClick={() => execute?.("AMUSIC")} className='terminal-link'>
+					APPLE MUSIC
 				</button>
 			</div>
 		),
@@ -79,8 +82,11 @@ export default function Portfolio() {
 		contact: () => {
 			router.push("/contact")
 		},
-		studios: () => {
-			router.push("/studios")
+		spotify: () => {
+			window.open("https://open.spotify.com/artist/3Re7kFD4ofekyvC7fxG4A1", "_blank")
+		},
+		amusic: () => {
+			window.open("https://geo.music.apple.com/artist/lost-fuzz/1636398740", "_blank")
 		},
 		apple: () => (
 			<pre className='text-[10px] leading-none my-4'>
@@ -137,6 +143,7 @@ export default function Portfolio() {
 											src={release.image}
 											alt={release.name}
 											fill
+											priority={index < 6}
 											className='object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100'
 											loadingSpeed={1.5 + Math.random() * 2}
 										/>

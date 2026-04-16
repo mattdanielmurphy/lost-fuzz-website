@@ -21,7 +21,8 @@ function slugify(name) {
 
 async function syncReleases() {
   console.log('Fetching Bandcamp page...');
-  const response = await fetch(BANDCAMP_URL);
+  // Add a cachebuster to ensure we get the latest page content
+  const response = await fetch(BANDCAMP_URL + '?cb=' + Date.now());
   const html = await response.text();
   const $ = cheerio.load(html);
 
@@ -57,62 +58,55 @@ async function syncReleases() {
     // Check if we already have this release in existing data
     const existing = existingReleases.find(r => r.link === releaseUrl || r.name === name);
 
-    if (existing) {
-      console.log(`Updating existing release: ${name}`);
-      updatedReleases.push({
-        ...existing,
-        name,
-        link: releaseUrl
-      });
-      processedNames.add(name);
-      processedLinks.add(releaseUrl);
-      continue;
-    }
-
-    console.log(`Found new release: ${name}`);
-
     const $img = $li.find('img');
-    const imgUrl = $img.attr('data-original') || $img.attr('src');
+    let imgUrl = $img.attr('data-original') || $img.attr('src');
     
     if (!imgUrl) {
       console.warn(`No image found for ${name}, skipping.`);
       continue;
     }
 
+    // Try to get the high-res version of the image (_10.jpg is usually the original/large version)
+    // instead of the thumbnail (_2.jpg) which might be stale or low quality.
+    imgUrl = imgUrl.replace(/_2\.jpg$/, '_10.jpg');
+
     const fileName = slugify(name) + '.jpg';
     const localImagePath = path.join(__dirname, '../public/images', fileName);
 
-    console.log(`Downloading image for ${name} from ${imgUrl}...`);
+    // Always attempt to download image to ensure it is up to date
+    console.log(`Syncing image for ${name} from ${imgUrl}...`);
     try {
         const imgRes = await fetch(imgUrl);
         if (!imgRes.ok) throw new Error(`Failed to fetch image: ${imgRes.statusText}`);
         const buffer = Buffer.from(await imgRes.arrayBuffer());
         fs.writeFileSync(localImagePath, buffer);
 
+        // Check if we already have this release in existing data to keep any extra metadata if it exists
+        const existing = existingReleases.find(r => r.link === releaseUrl || r.name === name);
+
         updatedReleases.push({
+          ...(existing || {}),
           name,
           link: releaseUrl,
-          image: `/images/${fileName}`
+          image: `/images/${fileName}?v=${Date.now()}`
         });
         processedNames.add(name);
         processedLinks.add(releaseUrl);
     } catch (err) {
         console.error(`Error downloading image for ${name}:`, err.message);
+        // If download fails but we have an existing entry, maybe keep it? 
+        // For now, let's keep the existing one if we have it, otherwise skip.
+        const existing = existingReleases.find(r => r.link === releaseUrl || r.name === name);
+        if (existing) {
+            updatedReleases.push(existing);
+            processedNames.add(name);
+            processedLinks.add(releaseUrl);
+        }
     }
   }
 
-  // Keep manual entries (those with an artist field that isn't the default, or just any not on the grid)
-  // For now, let's keep everything that was NOT processed and has a custom artist.
-  const manualEntries = existingReleases.filter(r => 
-    !processedNames.has(r.name) && 
-    !processedLinks.has(r.link) && 
-    r.artist && r.artist !== 'LOST FUZZ'
-  );
-
-  if (manualEntries.length > 0) {
-    console.log(`Keeping ${manualEntries.length} manual entries.`);
-    updatedReleases.push(...manualEntries);
-  }
+  // Removed manual entries preservation as it was causing stale releases to persist
+  // that are no longer on the main Bandcamp page.
 
   fs.writeFileSync(RELEASES_JSON_PATH, JSON.stringify(updatedReleases, null, 2));
   console.log(`Sync complete. Total releases: ${updatedReleases.length}`);
