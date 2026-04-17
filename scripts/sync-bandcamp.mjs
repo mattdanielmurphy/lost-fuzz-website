@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import * as cheerio from 'cheerio';
 import { fileURLToPath } from 'url';
+import crypto from 'crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,6 +18,10 @@ function slugify(name) {
     .replace(/\s+/g, ' ')
     .replace(/[/\\?%*:|"<>]/g, '') // remove illegal filename chars
     .replace(/\s+/g, '_');         // spaces -> underscores
+}
+
+function getHash(buffer) {
+  return crypto.createHash('md5').update(buffer).digest('hex').substring(0, 8);
 }
 
 async function syncReleases() {
@@ -74,28 +79,49 @@ async function syncReleases() {
     const localImagePath = path.join(__dirname, '../public/images', fileName);
 
     // Always attempt to download image to ensure it is up to date
-    console.log(`Syncing image for ${name} from ${imgUrl}...`);
     try {
         const imgRes = await fetch(imgUrl);
         if (!imgRes.ok) throw new Error(`Failed to fetch image: ${imgRes.statusText}`);
         const buffer = Buffer.from(await imgRes.arrayBuffer());
-        fs.writeFileSync(localImagePath, buffer);
-
+        const newHash = getHash(buffer);
+        
         // Check if we already have this release in existing data to keep any extra metadata if it exists
         const existing = existingReleases.find(r => r.link === releaseUrl || r.name === name);
+        
+        let shouldWrite = true;
+        let currentImageString = `/images/${fileName}?v=${newHash}`;
+
+        if (fs.existsSync(localImagePath)) {
+            const existingBuffer = fs.readFileSync(localImagePath);
+            const existingHash = getHash(existingBuffer);
+            
+            if (existingHash === newHash) {
+                console.log(`Image for ${name} is already up to date (hash matches).`);
+                shouldWrite = false;
+                // If the hash matches, try to preserve the existing image string from JSON 
+                // if it already uses the same hash format to avoid changing the JSON.
+                if (existing && existing.image && existing.image.includes(`?v=${newHash}`)) {
+                    currentImageString = existing.image;
+                }
+            }
+        }
+
+        if (shouldWrite) {
+            console.log(`Syncing image for ${name} from ${imgUrl}...`);
+            fs.writeFileSync(localImagePath, buffer);
+        }
 
         updatedReleases.push({
           ...(existing || {}),
           name,
           link: releaseUrl,
-          image: `/images/${fileName}?v=${Date.now()}`
+          image: currentImageString
         });
         processedNames.add(name);
         processedLinks.add(releaseUrl);
     } catch (err) {
         console.error(`Error downloading image for ${name}:`, err.message);
-        // If download fails but we have an existing entry, maybe keep it? 
-        // For now, let's keep the existing one if we have it, otherwise skip.
+        // If download fails but we have an existing entry, keep it.
         const existing = existingReleases.find(r => r.link === releaseUrl || r.name === name);
         if (existing) {
             updatedReleases.push(existing);

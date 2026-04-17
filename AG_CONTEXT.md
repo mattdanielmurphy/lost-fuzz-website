@@ -25,7 +25,7 @@ A Next.js website with a retro terminal theme.
   - Script: `scripts/sync-bandcamp.mjs`
   - Data: `src/data/releases.json`
   - Images: `public/images/`
-  - Note: Sync now strictly matches the Bandcamp page grid (removes stale or manual entries) and always refreshes artwork.
+  - Note: Sync matches the Bandcamp page grid (removes stale entries) and uses MD5 hashing to only update images/JSON if the content has changed (avoiding git churn).
   - Automation: GitHub Action (`.github/workflows/sync-bandcamp.yml`) runs hourly.
     - **Fix:** Added `rm -rf ~/.npm` purge step to resolve ENOENT errors on LMDB index files after repo rename.
     - **Note:** Workflow updated to use `pnpm` to match project conventions.
