@@ -3,7 +3,7 @@
 ## Project Overview
 A Next.js website with a retro terminal theme.
 - **Homepage:** Commodore 64 (C64) style.
-- **Portfolio:** Apple II style.
+- **Bandcamp:** Apple II style.
 - **About Me:** MS-DOS style.
 - **Contact Me:** Amiga Workbench style.
 - **Lost Fuzz Studios:** System 1.0 (Classic Mac) style (Currently unlinked from main navigation).
@@ -18,10 +18,10 @@ A Next.js website with a retro terminal theme.
 - `npm run build`: Build for production.
 - `npm run start`: Start production server.
 - `npm run lint`: Run ESLint.
-- `npm run sync-bandcamp`: Scrapes Bandcamp for new releases and updates the portfolio.
+- `npm run sync-bandcamp`: Scrapes Bandcamp for new releases and updates the bandcamp data.
 
 ## Features
-- **Portfolio Sync:** Automated Bandcamp release synchronization.
+- **Bandcamp Sync:** Automated Bandcamp release synchronization.
   - Script: `scripts/sync-bandcamp.mjs`
   - Data: `src/data/releases.json`
   - Images: `public/images/`

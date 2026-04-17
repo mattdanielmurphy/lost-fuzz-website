@@ -63,7 +63,7 @@ export default function Contact() {
 				<button onClick={() => execute?.("ABOUT")} className="terminal-link">ABOUT</button>
 				<button onClick={() => execute?.("INFO")} className="terminal-link">INFO</button>
 				<button onClick={() => execute?.("SAY HELLO")} className="terminal-link">SAY</button>
-				<button onClick={() => execute?.("PORTFOLIO")} className="terminal-link">PORTFOLIO</button>
+				<button onClick={() => execute?.("BANDCAMP")} className="terminal-link">BANDCAMP</button>
 				<button onClick={() => execute?.("SPOTIFY")} className="terminal-link">SPOTIFY</button>
 				<button onClick={() => execute?.("AMUSIC")} className="terminal-link">APPLE MUSIC</button>
 				<button onClick={() => execute?.("HELP")} className="terminal-link">HELP</button>
@@ -77,7 +77,7 @@ export default function Contact() {
 		about: () => { router.push("/about") },
 		info: () => "AMIGA 1200 - MOTOROLA 68030 50MHZ - KICKSTART 3.1",
 		say: (args: string[]) => args.join(" ").toUpperCase() || "HELLO FROM THE AMIGA",
-		portfolio: () => { router.push("/portfolio") },
+		bandcamp: () => { router.push("/bandcamp") },
 		spotify: () => { window.open("https://open.spotify.com/artist/3Re7kFD4ofekyvC7fxG4A1", "_blank") },
 		amusic: () => { window.open("https://geo.music.apple.com/artist/lost-fuzz/1636398740", "_blank") },
 		close: () => { setShellOpen(false) },

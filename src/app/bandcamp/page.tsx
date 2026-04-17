@@ -16,7 +16,7 @@ interface Release {
 
 const releases = releasesData as Release[]
 
-export default function Portfolio() {
+export default function Bandcamp() {
 	const router = useRouter()
 	const bandcampRef = useRef<HTMLDivElement>(null)
 
@@ -112,7 +112,7 @@ export default function Portfolio() {
 				<Link href='/' className='hover:bg-[#33ff33] hover:text-black px-1 -ml-1'>
 					LOST FUZZ
 				</Link>
-				: PORTFOLIO
+				: BANDCAMP
 			</h1>
 			<p className='text-xs sm:text-sm md:text-base'>MUSIC RELEASES - (C) 1982-2025 LOST FUZZ</p>
 			<p className='text-xs mt-4'>TYPE &apos;HELP&apos; FOR SYSTEM COMMANDS</p>

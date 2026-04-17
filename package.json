@@ -28,10 +28,6 @@
     "typescript": "^5"
   },
   "pnpm": {
-    "allowedBuildScripts": [
-      "sharp",
-      "unrs-resolver"
-    ],
     "onlyBuiltDependencies": [
       "sharp",
       "unrs-resolver"

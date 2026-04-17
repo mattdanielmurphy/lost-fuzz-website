@@ -14,13 +14,13 @@ export default function About() {
 	}, [])
 
 	const commands = useMemo(() => ({
-		help: () => "AVAILABLE COMMANDS: DIR, TYPE, CD, CLS, VER, HELP, ECHO, HOME, ABOUT, PORTFOLIO, CONTACT",
+		help: () => "AVAILABLE COMMANDS: DIR, TYPE, CD, CLS, VER, HELP, ECHO, HOME, ABOUT, BANDCAMP, CONTACT",
 		dir: () => (
 			<div className='grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 my-2 text-base sm:text-2xl'>
 				<span>[.]</span>
 				<span>[..]</span>
 				<span>README.TXT</span>
-				<span>PORTFOLIO.EXE</span>
+				<span>BANDCAMP.EXE</span>
 				<span>CONTACT.EXE</span>
 				<span>AUTOEXEC.BAT</span>
 				<span>CONFIG.SYS</span>
@@ -75,14 +75,14 @@ export default function About() {
 		about: () => {
 			router.push("/about")
 		},
-		portfolio: () => {
-			router.push("/portfolio")
+		bandcamp: () => {
+			router.push("/bandcamp")
 		},
 		contact: () => {
 			router.push("/contact")
 		},
-		"portfolio.exe": () => {
-			router.push("/portfolio")
+		"bandcamp.exe": () => {
+			router.push("/bandcamp")
 		},
 		"contact.exe": () => {
 			router.push("/contact")

@@ -266,8 +266,8 @@ export default function Home() {
 						<button onClick={() => execute?.("ABOUT")} className='terminal-link text-left w-fit'>
 							ABOUT
 						</button>
-						<button onClick={() => execute?.("PORTFOLIO")} className='terminal-link text-left w-fit'>
-							PORTFOLIO
+						<button onClick={() => execute?.("BANDCAMP")} className='terminal-link text-left w-fit'>
+							BANDCAMP
 						</button>
 						<button onClick={() => execute?.("CONTACT")} className='terminal-link text-left w-fit'>
 							CONTACT
@@ -290,8 +290,8 @@ export default function Home() {
 						<div className='flex gap-2 sm:gap-4'>
 							<span className='w-10 sm:w-12 flex-shrink-0 text-right'>10</span>
 
-							<Link href='/portfolio' className='terminal-link inline-block'>
-								PRINT &quot;PORTFOLIO&quot;
+							<Link href='/bandcamp' className='terminal-link inline-block'>
+								PRINT &quot;BANDCAMP&quot;
 							</Link>
 						</div>
 
@@ -458,14 +458,14 @@ export default function Home() {
 			about: () => {
 				router.push("/about")
 			},
-			portfolio: () => {
-				router.push("/portfolio")
+			bandcamp: () => {
+				router.push("/bandcamp")
 			},
 			contact: () => {
 				router.push("/contact")
 			},
 			"10": () => {
-				router.push("/portfolio")
+				router.push("/bandcamp")
 			},
 			"20": () => {
 				router.push("/contact")

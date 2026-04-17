@@ -33,8 +33,8 @@ export default function Studios() {
 				<button onClick={() => execute?.("ABOUT")} className='terminal-link'>
 					ABOUT
 				</button>
-				<button onClick={() => execute?.("PORTFOLIO")} className='terminal-link'>
-					PORTFOLIO
+				<button onClick={() => execute?.("BANDCAMP")} className='terminal-link'>
+					BANDCAMP
 				</button>
 				<button onClick={() => execute?.("CONTACT")} className='terminal-link'>
 					CONTACT
@@ -56,8 +56,8 @@ export default function Studios() {
 		about: () => {
 			router.push("/about")
 		},
-		portfolio: () => {
-			router.push("/portfolio")
+		bandcamp: () => {
+			router.push("/bandcamp")
 		},
 		contact: () => {
 			router.push("/contact")
