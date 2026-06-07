@@ -608,7 +608,7 @@ export default function Home() {
                 router.push('/bandcamp')
             },
             '20': () => {
-                router.push('/contact')
+                router.push('/about')
             },
             '30': () => {
                 window.open(
