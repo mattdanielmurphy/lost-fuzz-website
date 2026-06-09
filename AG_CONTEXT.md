@@ -38,7 +38,8 @@ A Next.js website with a retro terminal theme.
 
 ## Conventions & Config
 - **Package Manager:** pnpm.
-  - Config: `pnpm.allowedBuildScripts` includes `sharp` and `unrs-resolver` for Vercel builds.
+  - Config: `pnpm.onlyBuiltDependencies` in `package.json` includes `sharp` and `unrs-resolver` for Vercel builds.
+  - Note: Removed `pnpm-workspace.yaml` to resolve "packages field missing or empty" error as this is a single-package repository.
 
 ## Design Inspiration
 - `lost-fuzz-site.png`: Screenshot of the desired C64 homepage.
